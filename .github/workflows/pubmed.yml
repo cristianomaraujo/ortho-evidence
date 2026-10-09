@@ -1,0 +1,31 @@
+name: Collect PubMed snapshot
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pubmed-collection
+  cancel-in-progress: false
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python scripts/update_pubmed.py
+      - run: python scripts/prepare_extraction.py
+      - run: python scripts/extract_reviews.py --config extraction/config.luna.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pubmed-snapshot-${{ github.run_id }}
+          path: |
+            dist/
+            data/raw/
+            extraction/pilot-v1.json
+            extraction/preflight.json
+          retention-days: 7
+          if-no-files-found: error

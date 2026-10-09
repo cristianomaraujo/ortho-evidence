@@ -1,0 +1,26 @@
+name: Correção ou revisão ausente
+description: Registrar erro com fonte verificável
+title: "[Dados] "
+body:
+  - type: input
+    id: pmid
+    attributes:
+      label: PMID ou link PubMed
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Tipo
+      options:
+        - Revisão ausente
+        - Extração incorreta
+        - Similaridade incorreta
+        - Tema incorreto
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Correção, justificativa e versão da base
+      description: Não inclua chaves, dados pessoais ou resumos completos.
+    validations:
+      required: true

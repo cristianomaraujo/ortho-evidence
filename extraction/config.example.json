@@ -1,0 +1,9 @@
+{
+  "model": null,
+  "input_usd_per_million": null,
+  "output_usd_per_million": null,
+  "max_output_tokens": 4096,
+  "expected_output_tokens": 1200,
+  "pricing_checked_at": null,
+  "api_execution_enabled": false
+}

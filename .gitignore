@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+**/__pycache__/
+extraction/results/
+extraction/config.private.json
+
+data/raw/
+dist/data.json
+dist/records-*.json
+dist/pilot-plan.json
+dist/extraction-preflight.json
+extraction/pilot-v1.json
+extraction/preflight.json
+*.ipynb

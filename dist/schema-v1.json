@@ -1,0 +1,434 @@
+{
+  "type": "object",
+  "properties": {
+    "objective": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "population": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "intervention_or_exposure": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "comparator": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "outcomes": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "value": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "value",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "review_types": {
+      "type": "object",
+      "properties": {
+        "values": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "systematic_review",
+              "meta_analysis",
+              "scoping_review",
+              "mapping_review",
+              "narrative_review",
+              "umbrella_review",
+              "other_review",
+              "not_reported",
+              "unclear"
+            ]
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": {
+                "type": "string",
+                "enum": [
+                  "title",
+                  "abstract"
+                ]
+              },
+              "quote": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "quote"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "values",
+        "evidence"
+      ],
+      "additionalProperties": false
+    },
+    "included_counts": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": [
+            "reported",
+            "not_reported",
+            "unclear"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "number": {
+                "type": "integer"
+              },
+              "unit": {
+                "type": "string",
+                "enum": [
+                  "studies",
+                  "articles",
+                  "trials",
+                  "publications"
+                ]
+              },
+              "scope": {
+                "type": "string",
+                "enum": [
+                  "whole_review",
+                  "subset",
+                  "unclear"
+                ]
+              },
+              "evidence": {
+                "type": "object",
+                "properties": {
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "title",
+                      "abstract"
+                    ]
+                  },
+                  "quote": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "source",
+                  "quote"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "number",
+              "unit",
+              "scope",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "status",
+        "items"
+      ],
+      "additionalProperties": false
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "objective",
+    "population",
+    "intervention_or_exposure",
+    "comparator",
+    "outcomes",
+    "context",
+    "review_types",
+    "included_counts",
+    "warnings"
+  ],
+  "additionalProperties": false
+}
