@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Reproducible PubMed collection and exploratory TF-IDF baseline; not validated."""
 import sys
+from classify_themes import classify
 import numpy as np
 import urllib.request,urllib.parse,json,time,re,hashlib,xml.etree.ElementTree as ET
 from pathlib import Path
@@ -23,7 +24,7 @@ def get(endpoint,params):
    if attempt==3:raise
    time.sleep(2**attempt)
 def txt(el):return ''.join(el.itertext()).strip() if el is not None else ''
-themes={'Alinhadores':['aligner','invisalign'],'Contenção e estabilidade':['retention','retainer','relapse'],'Crescimento e ortopedia':['growth','maturation','functional appliance','class ii','class iii','maxillary expansion'],'IA e métodos digitais':['artificial intelligence','machine learning','deep learning','digital','teleorthodont','automated'],'Reabsorção e periodonto':['root resorption','periodontal','gingival'],'Biomecânica e ancoragem':['anchorage','miniscrew','mini-implant','tooth movement','acceleration'],'Experiência do paciente':['quality of life','pain','patient satisfaction'],'Cirurgia ortognática':['orthognathic']}
+
 def process(el):
  c=el.find('MedlineCitation');a=c.find('Article');pmid=txt(c.find('PMID'));title=txt(a.find('ArticleTitle'))
  parts=[(x.get('Label',''),txt(x)) for x in a.findall('Abstract/AbstractText')];abstract=' '.join((l+': ' if l else '')+s for l,s in parts)
@@ -41,8 +42,8 @@ def process(el):
  date=a.find('Journal/JournalIssue/PubDate');ys=txt(date.find('Year')) if date is not None else ''
  if not ys and date is not None:
   m=re.search(r'\b(19|20)\d{2}\b',txt(date));ys=m.group() if m else ''
- titlelower=title.lower();ts=[k for k,terms in themes.items() if any(t in titlelower for t in terms)]
- return {'id':pmid,'pmid':pmid,'title':title,'year':int(ys) if ys.isdigit() else 0,'journal':txt(a.find('Journal/Title')),'theme':ts[0] if ts else 'Outros temas','themes':ts or ['Outros temas'],'type':'; '.join(txt(x) for x in a.findall('PublicationTypeList/PublicationType')),'url':'https://pubmed.ncbi.nlm.nih.gov/'+pmid+'/','doi':doi,'abstract':abstract,'objective':objectives,'counts':evidence,'mesh':[txt(x.find('DescriptorName')) for x in c.findall('MeshHeadingList/MeshHeading')],'status':'Registro recuperado; elegibilidade e extração não validadas','hash':hashlib.sha256(ET.tostring(el)).hexdigest()}
+ record={'id':pmid,'pmid':pmid,'title':title,'year':int(ys) if ys.isdigit() else 0,'journal':txt(a.find('Journal/Title')),'type':'; '.join(txt(x) for x in a.findall('PublicationTypeList/PublicationType')),'url':'https://pubmed.ncbi.nlm.nih.gov/'+pmid+'/','doi':doi,'abstract':abstract,'objective':objectives,'counts':evidence,'mesh':[txt(x.find('DescriptorName')) for x in c.findall('MeshHeadingList/MeshHeading')],'status':'Registro recuperado; elegibilidade e extração não validadas','hash':hashlib.sha256(ET.tostring(el)).hexdigest()}
+ record.update(classify(record));return record
 def write_dataset(payload):
  records=payload.pop('records');files=[]
  for start in range(0,len(records),2000):
@@ -112,6 +113,6 @@ def main():
  for i,d in enumerate(records):
   row=matrix.getrow(i);d['vector']=[[int(k),round(float(v),6)] for k,v in zip(row.indices,row.data)]
  vocab={term:[int(k),float(vectorizer.idf_[k])] for term,k in vectorizer.vocabulary_.items()}
- payload={'index':{'vocab':vocab,'stopwords':sorted(ENGLISH_STOP_WORDS)},'meta':{'query':(raw/'query.txt').read_text() if (raw/'query.txt').exists() else QUERY,'query_translation':search.get('querytranslation'),'reused_snapshot':previous.name if '--reuse-cache' in sys.argv and previous else None,'retrieval_routes':'Exact ESearch membership: publication types, systematic filter, scope/mapping free terms. Text family signals are unvalidated, not confirmed review designs.','retrieved_at':datetime.now(timezone.utc).isoformat(),'excluded_record_types':excluded,'retrieved_count':len(records),'pubmed_count':int(search['count']),'eligibility':'Not manually verified','method':'TF-IDF word 1–2 grams + cosine similarity; exploratory unvalidated baseline','themes':'Title-based keyword rules; unvalidated; multiple labels','counts':'Explicit numeric patterns, source sentences retained; unvalidated','automatic_schedule':False,'run':run},'records':records}
+ payload={'index':{'vocab':vocab,'stopwords':sorted(ENGLISH_STOP_WORDS)},'meta':{'query':(raw/'query.txt').read_text() if (raw/'query.txt').exists() else QUERY,'query_translation':search.get('querytranslation'),'reused_snapshot':previous.name if '--reuse-cache' in sys.argv and previous else None,'retrieval_routes':'Exact ESearch membership: publication types, systematic filter, scope/mapping free terms. Text family signals are unvalidated, not confirmed review designs.','retrieved_at':datetime.now(timezone.utc).isoformat(),'excluded_record_types':excluded,'retrieved_count':len(records),'pubmed_count':int(search['count']),'eligibility':'Not manually verified','method':'TF-IDF word 1–2 grams + cosine similarity; exploratory unvalidated baseline','themes':'rules-v2: title, objective, abstract and MeSH; unvalidated; multiple labels','counts':'Explicit numeric patterns, source sentences retained; unvalidated','automatic_schedule':False,'run':run},'records':records}
  write_dataset(payload);(raw/'search.json').write_text(json.dumps(search));print('Complete:',len(records),flush=True)
 if __name__=='__main__':main()
